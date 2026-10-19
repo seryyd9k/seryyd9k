@@ -1,1733 +1,1218 @@
-﻿<!DOCTYPE html>
-<html lang="ru" data-theme="light">
+]<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#eef4fc">
-    <title>WinHub — Образы Windows</title>
+    <title>serikxboxmods — Xbox 360 Mods</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        /* ============================================================
-        ПЕРЕМЕННЫЕ И ТЕМЫ
-        ============================================================ */
-        :root {
-            /* Светлая тема — мягкие синие тона */
-            --bg: #eef4fc;
-            --bg-2: #e1ecf9;
-            --surface: rgba(255,255,255,0.82);
-            --surface-2: rgba(255,255,255,0.6);
-            --surface-hover: rgba(255,255,255,0.95);
-            --border: rgba(120,160,210,0.22);
-            --border-strong: rgba(80,130,190,0.38);
-            --text: #1c3a5c;
-            --text-soft: #4a6a8e;
-            --text-mute: #7a94b0;
-            --accent: #2d7fd6;
-            --accent-2: #1a5fa8;
-            --accent-soft: rgba(45,127,214,0.12);
-            --accent-glow: rgba(45,127,214,0.30);
-            --success: #2d9c6e;
-            --danger: #d6455e;
-            --shadow: rgba(50,100,160,0.12);
-            --shadow-2: rgba(50,100,160,0.22);
-            --header-bg: rgba(238,244,252,0.75);
+        /* --- ЖЕСТКИЙ СБРОС КУРСОРА --- */
+        html, body, *, a, button, input, textarea, select, summary {
+            cursor: none !important;
+        }
+
+        :root, [data-theme="light"] {
+            --bg: #f1f5f9;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --nav-bg: rgba(241, 245, 249, 0.85);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --heart: #ef4444;
+            --particle: rgba(99, 102, 241, 0.4);
         }
 
         [data-theme="dark"] {
-            --bg: #0a1525;
-            --bg-2: #0f1d33;
-            --surface: rgba(22,38,64,0.78);
-            --surface-2: rgba(22,38,64,0.55);
-            --surface-hover: rgba(32,52,84,0.88);
-            --border: rgba(80,130,190,0.18);
-            --border-strong: rgba(100,160,220,0.32);
-            --text: #d8e6f5;
-            --text-soft: #9bb5d0;
-            --text-mute: #6a86a5;
-            --accent: #4da3ff;
-            --accent-2: #3a8de8;
-            --accent-soft: rgba(77,163,255,0.14);
-            --accent-glow: rgba(77,163,255,0.35);
-            --success: #4dbe8e;
-            --danger: #ff6b80;
-            --shadow: rgba(0,0,0,0.35);
-            --shadow-2: rgba(0,0,0,0.5);
-            --header-bg: rgba(10,21,37,0.78);
+            --bg: #0f172a;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #818cf8;
+            --accent-glow: rgba(129, 140, 248, 0.4);
+            --card-bg: rgba(30, 41, 59, 0.65);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --heart: #f87171;
+            --particle: rgba(129, 140, 248, 0.5);
         }
 
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box
+            box-sizing: border-box;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
-            background: var(--bg);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
             color: var(--text);
-            line-height: 1.55;
-            min-height: 100vh;
+            line-height: 1.6;
             overflow-x: hidden;
-            transition: background .35s ease, color .35s ease;
-            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s, color 0.4s;
         }
 
-            body::before {
-                content: '';
-                position: fixed;
-                inset: 0;
-                z-index: -1;
-                pointer-events: none;
-                background: radial-gradient(circle at 12% 8%, var(--accent-soft) 0%, transparent 42%), radial-gradient(circle at 88% 82%, var(--accent-soft) 0%, transparent 46%), linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-                transition: background .35s;
+        /* --- КАСТОМНЫЙ СКРОЛЛБАР --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--accent-glow);
             }
 
-        button, input {
-            font-family: inherit
+        /* --- ЖИВОЙ ФОН С ЧАСТИЦАМИ --- */
+        .bg-mesh {
+            position: fixed;
+            inset: -10%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, var(--accent-glow) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
+            animation: bgMove 25s ease-in-out infinite alternate;
+            will-change: transform;
         }
 
-        /* ============================================================
-        HEADER
-        ============================================================ */
+        [data-theme="light"] .bg-mesh {
+            opacity: 0.7;
+        }
+
+        @keyframes bgMove {
+            0% {
+                transform: scale(1) rotate(0deg) translate(0, 0);
+            }
+
+            33% {
+                transform: scale(1.1) rotate(5deg) translate(3%, -3%);
+            }
+
+            66% {
+                transform: scale(0.95) rotate(-5deg) translate(-3%, 3%);
+            }
+
+            100% {
+                transform: scale(1.05) rotate(0deg) translate(0, 0);
+            }
+        }
+
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--particle);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* --- КУРСОР --- */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s, border-color 0.2s;
+            will-change: transform;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+            #cursor.hovering {
+                width: 28px;
+                height: 28px;
+                background: var(--accent-glow);
+                border-color: transparent;
+            }
+
+        /* --- ШАПКА --- */
         .header {
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(22px) saturate(180%);
-            -webkit-backdrop-filter: blur(22px) saturate(180%);
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--border);
-            transition: background .35s, border-color .35s;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            transition: background 0.4s;
         }
 
         .header-inner {
-            max-width: 1240px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 12px 24px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: space-between;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 17px;
-            letter-spacing: .02em;
+            gap: 12px;
             color: var(--text);
             text-decoration: none;
-            cursor: pointer;
         }
 
+        /* --- НОВЫЙ ШРИФТ ДЛЯ ЛОГОТИПА --- */
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 24px;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--accent), #ec4899, var(--accent));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: shine 3s linear infinite;
+            transition: transform 0.3s;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .logo:hover .logo-text {
+            transform: scale(1.05);
+        }
+
+        /* --- ЛОГОТИП С ПОСТОЯННЫМ RGB И 3D --- */
         .logo-icon {
-            width: 32px;
-            height: 32px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg,var(--accent),var(--accent-2));
-            border-radius: 8px;
-            box-shadow: 0 4px 14px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.3);
-        }
-
-            .logo-icon svg {
-                width: 20px;
-                height: 20px;
-                fill: #fff
-            }
-
-        .nav {
-            display: flex;
-            gap: 4px;
-            margin-left: 24px;
-        }
-
-            .nav a {
-                color: var(--text-soft);
-                text-decoration: none;
-                font-size: 13.5px;
-                font-weight: 600;
-                padding: 7px 14px;
-                border-radius: 8px;
-                transition: all .2s;
-            }
-
-                .nav a:hover {
-                    background: var(--accent-soft);
-                    color: var(--accent)
-                }
-
-        .header-right {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .icon-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            color: var(--text-soft);
-            transition: all .2s;
-        }
-
-            .icon-btn:hover {
-                background: var(--surface-hover);
-                color: var(--accent);
-                border-color: var(--border-strong);
-                transform: translateY(-1px);
-            }
-
-            .icon-btn svg {
-                width: 18px;
-                height: 18px
-            }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 18px;
-            border-radius: 10px;
-            font-size: 13.5px;
-            font-weight: 600;
-            letter-spacing: .01em;
-            cursor: pointer;
-            border: none;
-            transition: all .22s cubic-bezier(.2,.8,.2,1);
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(180deg,var(--accent),var(--accent-2));
-            color: #fff;
-            box-shadow: 0 4px 14px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.25);
-        }
-
-            .btn-primary:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 8px 22px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.25);
-            }
-
-            .btn-primary:active {
-                transform: translateY(0)
-            }
-
-        .btn-ghost {
-            background: var(--surface-2);
-            color: var(--text-soft);
-            border: 1px solid var(--border);
-        }
-
-            .btn-ghost:hover {
-                background: var(--surface-hover);
-                color: var(--accent);
-                border-color: var(--border-strong);
-            }
-
-        .user-chip {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 12px 5px 5px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all .2s;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-            .user-chip:hover {
-                background: var(--surface-hover);
-                border-color: var(--border-strong);
-            }
-
-        .user-avatar {
-            width: 28px;
-            height: 28px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: grid;
             place-items: center;
-            background: linear-gradient(135deg,var(--accent),var(--accent-2));
-            color: #fff;
-            font-weight: 800;
-            font-size: 12px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+            background: #107C10;
+            transform-style: preserve-3d;
+            animation: rgbRotate 3s infinite linear, wobble3D 4s infinite ease-in-out;
         }
 
-        /* ============================================================
-        HERO
-        ============================================================ */
-        .hero {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 72px 24px 48px;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: .06em;
-            color: var(--text-soft);
-            margin-bottom: 22px;
-            box-shadow: 0 2px 10px var(--shadow);
-        }
-
-            .hero-badge .dot {
-                width: 7px;
-                height: 7px;
-                border-radius: 50%;
-                background: var(--success);
-                box-shadow: 0 0 8px var(--success);
-                animation: pulseDot 2s ease-in-out infinite;
+        @keyframes rgbRotate {
+            0% {
+                filter: hue-rotate(0deg) drop-shadow(0 0 12px rgba(255,0,0,0.8));
             }
 
-        @keyframes pulseDot {
-            0%,100% {
-                opacity: 1;
-                transform: scale(1)
+            33% {
+                filter: hue-rotate(120deg) drop-shadow(0 0 12px rgba(0,255,0,0.8));
+            }
+
+            66% {
+                filter: hue-rotate(240deg) drop-shadow(0 0 12px rgba(0,0,255,0.8));
+            }
+
+            100% {
+                filter: hue-rotate(360deg) drop-shadow(0 0 12px rgba(255,0,0,0.8));
+            }
+        }
+
+        @keyframes wobble3D {
+            0% {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+
+            25% {
+                transform: rotateY(15deg) rotateX(10deg);
+            }
+
+            75% {
+                transform: rotateY(-15deg) rotateX(-10deg);
+            }
+
+            100% {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+        }
+
+        .logo:hover .logo-icon {
+            animation: rgbRotate 1.5s infinite linear, spinFull 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes spinFull {
+            0% {
+                transform: rotateY(0deg) rotateX(0deg) scale(1);
             }
 
             50% {
-                opacity: .6;
-                transform: scale(1.2)
+                transform: rotateY(180deg) rotateX(20deg) scale(1.2);
+            }
+
+            100% {
+                transform: rotateY(360deg) rotateX(0deg) scale(1.1);
             }
         }
 
-        .hero h1 {
-            font-size: clamp(36px,6vw,64px);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -.02em;
-            margin-bottom: 18px;
-            background: linear-gradient(180deg,var(--text) 0%,var(--accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+            transition: transform 0.6s;
         }
 
-        .hero p {
-            font-size: clamp(14px,1.6vw,17px);
-            color: var(--text-soft);
-            max-width: 600px;
-            margin: 0 auto 30px;
+        .logo:hover .logo-icon svg {
+            transform: rotateY(-360deg);
         }
 
-        .hero-stats {
+        /* Кнопки в шапке */
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+            .icon-btn:hover {
+                border-color: var(--accent);
+                color: var(--accent);
+                transform: scale(1.1);
+            }
+
+            .icon-btn.active {
+                background: var(--heart);
+                color: #fff;
+                border-color: var(--heart);
+            }
+
+            .icon-btn svg {
+                width: 20px;
+                height: 20px;
+                fill: currentColor;
+            }
+
+        /* --- HERO --- */
+        .hero {
+            text-align: center;
+            padding: 80px 24px 40px;
+        }
+
+            .hero h1 {
+                font-size: clamp(38px, 6vw, 68px);
+                font-weight: 900;
+                letter-spacing: -2px;
+                margin-bottom: 16px;
+                line-height: 1.1;
+                animation: slideDown 0.8s ease;
+            }
+
+                .hero h1 span {
+                    background: linear-gradient(135deg, var(--accent), #ec4899);
+                    -webkit-background-clip: text;
+                    color: transparent;
+                }
+
+            .hero p {
+                font-size: 18px;
+                color: var(--text-muted);
+                max-width: 500px;
+                margin: 0 auto;
+                animation: slideUp 0.8s ease;
+            }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- СТАТИСТИКА --- */
+        .stats-wrap {
             display: flex;
             justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-            margin-top: 36px;
+            gap: 60px;
+            margin-top: 50px;
+            animation: fadeIn 1s ease 0.3s both;
         }
 
-        .hero-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
+        .stat-box {
+            text-align: center;
         }
 
-            .hero-stat b {
-                font-size: 26px;
-                font-weight: 800;
+            .stat-box h3 {
+                font-size: 36px;
+                font-weight: 900;
                 color: var(--accent);
-                letter-spacing: -.01em;
+                text-shadow: 0 0 20px var(--accent-glow);
             }
 
-            .hero-stat span {
-                font-size: 11px;
+            .stat-box p {
+                font-size: 13px;
                 font-weight: 700;
-                letter-spacing: .2em;
-                color: var(--text-mute);
+                color: var(--text-muted);
                 text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-top: 4px;
             }
 
-        /* ============================================================
-        BUILDS
-        ============================================================ */
-        .builds {
-            max-width: 1240px;
+        /* --- ПОИСК --- */
+        .search-container {
+            max-width: 400px;
+            margin: 40px auto 0;
+            position: relative;
+            animation: fadeIn 1s ease 0.5s both;
+        }
+
+            .search-container input {
+                width: 100%;
+                padding: 16px 24px 16px 50px;
+                border-radius: 100px;
+                border: 1px solid var(--card-border);
+                background: var(--card-bg);
+                color: var(--text);
+                font-size: 16px;
+                font-family: inherit;
+                outline: none;
+                transition: all 0.3s;
+            }
+
+                .search-container input:focus {
+                    border-color: var(--accent);
+                    box-shadow: 0 0 25px var(--accent-glow);
+                }
+
+            .search-container svg {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 20px;
+                height: 20px;
+                fill: var(--text-muted);
+            }
+
+        /* --- КАРТОЧКИ --- */
+        .container {
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 24px 24px 80px;
+            padding: 40px 24px 80px;
         }
-
-        .builds-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 20px;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-        }
-
-            .builds-head h2 {
-                font-size: clamp(24px,3vw,32px);
-                font-weight: 800;
-                letter-spacing: -.01em;
-                margin-bottom: 6px;
-            }
-
-            .builds-head p {
-                color: var(--text-soft);
-                font-size: 14px;
-            }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+            perspective: 1000px;
         }
 
         .card {
-            position: relative;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 22px;
-            transition: all .3s cubic-bezier(.2,.8,.2,1);
-            overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            transition: box-shadow 0.3s, border-color 0.3s, transform 0.1s;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            animation: cardEnter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
 
-            .card::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                background: linear-gradient(135deg,var(--icon-color,var(--accent)) 0%,transparent 60%);
+            .card:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .card:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .card:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+        @keyframes cardEnter {
+            from {
                 opacity: 0;
-                transition: opacity .3s;
-                pointer-events: none;
+                transform: translateY(40px) scale(0.95);
             }
 
-            .card:hover {
-                transform: translateY(-4px);
-                border-color: var(--border-strong);
-                box-shadow: 0 12px 32px var(--shadow-2), 0 0 0 1px var(--border-strong);
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
+        }
 
-                .card:hover::before {
-                    opacity: .06
-                }
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px var(--accent-glow);
+        }
 
         .card-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 16px;
-            position: relative;
+            margin-bottom: 20px;
+            transform: translateZ(30px);
         }
 
         .card-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--bg);
             display: grid;
             place-items: center;
-            background: linear-gradient(135deg,var(--icon-color,var(--accent)),color-mix(in srgb,var(--icon-color,var(--accent)) 60%,#000));
-            box-shadow: 0 6px 18px color-mix(in srgb,var(--icon-color,var(--accent)) 40%,transparent),inset 0 1px 0 rgba(255,255,255,.3);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s;
         }
 
-            .card-icon svg {
-                width: 30px;
-                height: 30px;
-                fill: #fff
+        .card:hover .card-icon {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text);
+            transition: fill 0.3s;
+        }
+
+        .card:hover .card-icon svg {
+            fill: #fff;
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--card-border);
+            transition: all 0.3s;
+            transform: translateZ(30px);
+        }
+
+            .fav-btn.active {
+                color: var(--heart);
+                transform: scale(1.2) translateZ(30px);
+            }
+
+            .fav-btn:hover {
+                color: var(--heart);
+                transform: scale(1.2) translateZ(30px);
             }
 
         .card-badge {
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 10.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 800;
-            letter-spacing: .06em;
-            background: var(--accent-soft);
+            background: var(--accent-glow);
             color: var(--accent);
-            border: 1px solid var(--border);
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 12px;
         }
 
         .card h3 {
-            font-size: 19px;
+            font-size: 22px;
             font-weight: 800;
-            letter-spacing: -.01em;
-            margin-bottom: 6px;
-            position: relative;
+            margin-bottom: 12px;
+            transform: translateZ(20px);
         }
 
         .card-desc {
-            font-size: 13.5px;
-            color: var(--text-soft);
-            margin-bottom: 16px;
-            position: relative;
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            flex-grow: 1;
+            transform: translateZ(15px);
         }
 
-        .card-meta {
+        /* БЛОК КНОПОК */
+        .btn-group {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-            position: relative;
+            gap: 10px;
+            transform: translateZ(25px);
         }
 
-        .meta-tag {
-            display: inline-flex;
+        .btn {
+            display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            background: var(--surface-2);
-            color: var(--text-soft);
-            border: 1px solid var(--border);
-        }
-
-            .meta-tag svg {
-                width: 11px;
-                height: 11px;
-                opacity: .7
-            }
-
-        .card-features {
-            list-style: none;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px;
+            border-radius: 14px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
             flex: 1;
-            position: relative;
         }
 
-            .card-features li {
-                font-size: 12.5px;
-                color: var(--text-soft);
-                padding: 3px 0 3px 20px;
-                position: relative;
+        .btn-copy {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            flex: 0 0 54px;
+            padding: 0;
+            box-shadow: none;
+        }
+
+            .btn-copy:hover {
+                border-color: var(--accent);
+                color: var(--accent);
             }
 
-                .card-features li::before {
-                    content: '✓';
-                    position: absolute;
-                    left: 0;
-                    top: 3px;
-                    color: var(--icon-color,var(--accent));
-                    font-weight: 900;
-                    font-size: 12px;
-                }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            position: relative;
+        /* Ripple эффект */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
         }
 
-            .card-actions .btn {
-                flex: 1;
-                justify-content: center
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
             }
-
-        /* ============================================================
-        FOOTER
-        ============================================================ */
-        .footer {
-            border-top: 1px solid var(--border);
-            padding: 32px 24px;
-            background: var(--surface-2);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
         }
 
-        .footer-inner {
-            max-width: 1240px;
+        .btn:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* --- FAQ --- */
+        .faq-section {
+            max-width: 800px;
             margin: 0 auto;
+            padding: 0 24px 100px;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 40px;
+        }
+
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+            details:hover {
+                border-color: var(--accent);
+            }
+
+        summary {
+            padding: 24px;
+            font-weight: 700;
+            font-size: 16px;
+            list-style: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            font-size: 12.5px;
-            color: var(--text-mute);
+            outline: none;
         }
 
-            .footer-inner a {
-                color: var(--text-soft);
-                text-decoration: none;
-                transition: color .2s;
+            summary::-webkit-details-marker {
+                display: none;
             }
 
-                .footer-inner a:hover {
-                    color: var(--accent)
-                }
-
-        /* ============================================================
-        MODAL / OVERLAY
-        ============================================================ */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(10,20,40,0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .3s;
-        }
-
-            .overlay.on {
-                opacity: 1;
-                pointer-events: auto
-            }
-
-        .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%) scale(.94);
-            z-index: 210;
-            width: min(440px,calc(100vw - 32px));
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 28px;
-            box-shadow: 0 24px 64px var(--shadow-2),inset 0 1px 0 rgba(255,255,255,.1);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            opacity: 0;
-            pointer-events: none;
-            transition: all .3s cubic-bezier(.2,.8,.2,1);
-        }
-
-            .modal.on {
-                opacity: 1;
-                pointer-events: auto;
-                transform: translate(-50%,-50%) scale(1);
-            }
-
-        .modal-head {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-            .modal-head h2 {
-                font-size: 22px;
-                font-weight: 800;
-                margin-bottom: 4px;
-            }
-
-            .modal-head p {
-                font-size: 13px;
-                color: var(--text-soft);
-            }
-
-        .tabs {
-            display: flex;
-            background: var(--surface-2);
-            border-radius: 10px;
-            padding: 4px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .tab {
-            flex: 1;
-            padding: 9px 14px;
-            text-align: center;
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--text-soft);
-            cursor: pointer;
-            border-radius: 7px;
-            transition: all .2s;
-            border: none;
-            background: transparent;
-        }
-
-            .tab.active {
-                background: var(--surface-hover);
+            summary::after {
+                content: '+';
+                font-size: 24px;
                 color: var(--accent);
-                box-shadow: 0 2px 8px var(--shadow);
+                transition: transform 0.3s;
             }
 
-        .field {
-            margin-bottom: 14px
+        details[open] summary::after {
+            transform: rotate(45deg);
         }
 
-            .field label {
-                display: block;
-                font-size: 11.5px;
-                font-weight: 700;
-                letter-spacing: .08em;
-                text-transform: uppercase;
-                color: var(--text-mute);
-                margin-bottom: 6px;
-            }
-
-            .field input {
-                width: 100%;
-                padding: 11px 14px;
-                border-radius: 10px;
-                background: var(--surface-2);
-                border: 1.5px solid var(--border);
-                color: var(--text);
-                font-size: 14px;
-                transition: all .2s;
-                outline: none;
-            }
-
-                .field input:focus {
-                    border-color: var(--accent);
-                    background: var(--surface-hover);
-                    box-shadow: 0 0 0 4px var(--accent-soft);
-                }
-
-                .field input::placeholder {
-                    color: var(--text-mute)
-                }
-
-        .form-error {
-            padding: 9px 12px;
-            background: color-mix(in srgb,var(--danger) 12%,transparent);
-            border: 1px solid color-mix(in srgb,var(--danger) 30%,transparent);
-            border-radius: 8px;
-            color: var(--danger);
-            font-size: 12.5px;
-            font-weight: 600;
-            margin-bottom: 14px;
-            display: none;
+        details p {
+            padding: 0 24px 24px;
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.7;
         }
 
-            .form-error.on {
-                display: block
-            }
-
-        .modal .btn {
-            width: 100%;
-            justify-content: center;
-            padding: 12px
-        }
-
-        .disclaimer {
-            margin-top: 16px;
-            font-size: 11px;
-            color: var(--text-mute);
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        /* ============================================================
-        DRAWER (профиль)
-        ============================================================ */
-        .drawer {
+        /* --- УВЕДОМЛЕНИЕ --- */
+        #toast {
             position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 210;
-            width: min(380px,100vw);
-            background: var(--surface);
-            border-left: 1px solid var(--border);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            box-shadow: -20px 0 60px var(--shadow-2);
-            transform: translateX(100%);
-            transition: transform .35s cubic-bezier(.2,.8,.2,1);
-            display: flex;
-            flex-direction: column;
-        }
-
-            .drawer.on {
-                transform: translateX(0)
-            }
-
-        .drawer-head {
-            padding: 22px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .drawer-avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg,var(--accent),var(--accent-2));
+            bottom: 30px;
+            right: -350px;
+            background: var(--accent);
             color: #fff;
-            font-weight: 800;
-            font-size: 20px;
-            box-shadow: 0 6px 20px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.3);
-        }
-
-        .drawer-user h3 {
+            padding: 16px 28px;
+            border-radius: 16px;
+            font-weight: 700;
             font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 2px
+            box-shadow: 0 10px 40px var(--accent-glow);
+            transition: right 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .drawer-user p {
-            font-size: 12px;
-            color: var(--text-mute)
-        }
+            #toast.show {
+                right: 30px;
+            }
 
-        .drawer-close {
-            margin-left: auto;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+        /* --- КНОПКА НАВЕРХ --- */
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
             display: grid;
             place-items: center;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--text-mute);
-            transition: all .2s;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            transform: translateY(20px);
         }
 
-            .drawer-close:hover {
-                background: var(--surface-hover);
-                color: var(--text)
+            #scrollTopBtn.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
             }
 
-        .drawer-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 24px;
-        }
-
-        .drawer-section {
-            margin-bottom: 24px;
-        }
-
-            .drawer-section h4 {
-                font-size: 11px;
-                font-weight: 800;
-                letter-spacing: .18em;
-                text-transform: uppercase;
-                color: var(--text-mute);
-                margin-bottom: 12px;
+            #scrollTopBtn:hover {
+                filter: brightness(1.2);
+                transform: translateY(-5px);
             }
 
-        .history-empty {
-            font-size: 13px;
-            color: var(--text-mute);
-            padding: 20px;
-            text-align: center;
-            background: var(--surface-2);
-            border-radius: 10px;
-            border: 1px dashed var(--border-strong);
-        }
-
-        .history-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-            .history-item .dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: var(--accent);
-                flex-shrink: 0;
+            #scrollTopBtn svg {
+                width: 24px;
+                height: 24px;
+                fill: currentColor;
             }
 
-            .history-item .name {
-                flex: 1;
-                font-weight: 600
-            }
-
-            .history-item .date {
-                font-size: 11px;
-                color: var(--text-mute)
-            }
-
-        .drawer-foot {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border);
-        }
-
-            .drawer-foot .btn {
-                width: 100%;
-                justify-content: center
-            }
-
-        /* ============================================================
-        TOAST
-        ============================================================ */
-        .toast-container {
+        /* --- КОРОВЫ --- */
+        #cow-btn {
             position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 300;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-            pointer-events: none;
+            bottom: 90px;
+            right: 30px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            font-size: 26px;
+            display: grid;
+            place-items: center;
+            z-index: 998;
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
+            position: relative;
         }
 
-        .toast {
-            padding: 11px 20px;
-            background: var(--surface);
-            border: 1px solid var(--border-strong);
-            border-radius: 12px;
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--text);
-            box-shadow: 0 12px 32px var(--shadow-2),inset 0 1px 0 rgba(255,255,255,.1);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: toastIn .3s cubic-bezier(.2,.8,.2,1);
-            max-width: calc(100vw - 40px);
-        }
-
-            .toast.out {
-                animation: toastOut .3s cubic-bezier(.2,.8,.2,1) forwards
+            #cow-btn:hover {
+                border-color: var(--accent);
+                transform: scale(1.1) rotate(15deg);
             }
 
-        .toast-icon {
-            width: 22px;
-            height: 22px;
+        .cow-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: grid;
             place-items: center;
-            font-size: 12px;
-            font-weight: 900;
-            flex-shrink: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .toast.success .toast-icon {
-            background: color-mix(in srgb,var(--success) 18%,transparent);
-            color: var(--success)
+            .cow-count.show {
+                opacity: 1;
+            }
+
+        .falling-cow {
+            position: fixed;
+            top: -150px;
+            z-index: 9999;
+            pointer-events: none;
+            will-change: transform;
+            animation: fall linear forwards;
         }
 
-        .toast.error .toast-icon {
-            background: color-mix(in srgb,var(--danger) 18%,transparent);
-            color: var(--danger)
+        @keyframes fall {
+            to {
+                transform: translateY(120vh) rotate(360deg);
+            }
         }
 
-        .toast.info .toast-icon {
-            background: var(--accent-soft);
-            color: var(--accent)
-        }
-
-        @keyframes toastIn {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px) scale(.94)
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1)
             }
         }
 
-        @keyframes toastOut {
-            to {
-                opacity: 0;
-                transform: translateY(10px) scale(.96)
-            }
-        }
-
-        /* ============================================================
-        RESPONSIVE
-        ============================================================ */
-        @media (max-width:768px) {
-            .nav {
-                display: none
-            }
-
-            .header-inner {
-                padding: 10px 16px;
-                gap: 12px
-            }
-
-            .hero {
-                padding: 52px 20px 36px
-            }
-
-            .hero-stats {
-                gap: 24px
-            }
-
-            .builds {
-                padding: 20px 20px 60px
-            }
-
-            .builds-head {
-                flex-direction: column;
-                align-items: flex-start
-            }
-
+        @media (max-width: 768px) {
             .grid {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
 
-            .btn {
-                padding: 8px 14px;
-                font-size: 12.5px
+            .stats-wrap {
+                flex-wrap: wrap;
+                gap: 30px;
             }
 
-            .logo {
-                font-size: 15px
+            .header-actions {
+                gap: 8px;
             }
-        }
 
-        /* ============================================================
-        UTILS
-        ============================================================ */
-        .hidden {
-            display: none !important
-        }
-
-        .muted {
-            color: var(--text-mute)
+            .logo-text {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-         HEADER
-         ============================================================ -->
+    <div id="cursor"></div>
+    <div class="bg-mesh"></div>
+    <div class="particles" id="particles"></div>
+
     <header class="header">
         <div class="header-inner">
-            <a href="#" class="logo" onclick="return false">
+            <a href="#" class="logo">
                 <div class="logo-icon">
-                    <svg viewBox="0 0 24 24">
-                        <rect x="2" y="2" width="8.5" height="8.5" rx="1.2" />
-                        <rect x="13.5" y="2" width="8.5" height="8.5" rx="1.2" />
-                        <rect x="2" y="13.5" width="8.5" height="8.5" rx="1.2" />
-                        <rect x="13.5" y="13.5" width="8.5" height="8.5" rx="1.2" />
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm4.74 14.74c-1.13-1.46-2.73-3.02-4.74-3.02s-3.61 1.56-4.74 3.02c-1.52-1.72-2.26-3.96-2.26-6 0-3.98 2.76-7.19 6.66-7.19s6.66 3.21 6.66 7.19c0 2.04-.74 4.28-2.26 6zM12 13.5c1.38 0 2.5-1.12 2.5-2.5S13.38 8.5 12 8.5 9.5 9.62 9.5 11s1.12 2.5 2.5 2.5z" /></svg>
                 </div>
-                WinHub
+                <span class="logo-text">serikxboxmods</span>
             </a>
-
-            <nav class="nav">
-                <a href="#builds">Образы</a>
-                <a href="#about">О проекте</a>
-            </nav>
-
-            <div class="header-right">
-                <button class="icon-btn" id="themeBtn" title="Сменить тему" aria-label="Сменить тему">
-                    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                    </svg>
+            <div class="header-actions">
+                <button class="icon-btn" id="favFilterBtn" title="Показать избранное">
+                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                 </button>
-                <div id="authButtons" style="display:flex;gap:8px">
-                    <button class="btn btn-ghost" id="loginBtn">Войти</button>
-                    <button class="btn btn-primary" id="registerBtn">Регистрация</button>
-                </div>
-                <button class="user-chip hidden" id="userChip">
-                    <div class="user-avatar" id="userAvatar">?</div>
-                    <span id="userName">—</span>
+                <button class="icon-btn" id="themeBtn">
+                    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ============================================================
-         HERO
-         ============================================================ -->
     <section class="hero">
-        <div class="hero-badge">
-            <span class="dot"></span>
-            Образы проверены · локальное хранение данных
-        </div>
-        <h1>Образы Windows<br>для тебя</h1>
-        <p>Скачивай чистые образы Windows 11 и Windows 10. Все данные аккаунта хранятся только в твоём браузере — никакие серверы не задействованы.</p>
+        <h1>Твой проводник в мир <span>Xbox 360</span></h1>
+        <p>Самые проверенные файлы. Чип не нужен — эти файлы вместе создают привязанную прошивку.</p>
 
-        <div class="hero-stats">
-            <div class="hero-stat"><b>5</b><span>образов</span></div>
-            <div class="hero-stat"><b>23H2</b><span>версия</span></div>
-            <div class="hero-stat"><b>x64</b><span>архитектура</span></div>
-            <div class="hero-stat"><b>100%</b><span>локально</span></div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         BUILDS
-         ============================================================ -->
-    <section class="builds" id="builds">
-        <div class="builds-head">
-            <div>
-                <h2>Доступные образы</h2>
-                <p>Выбери нужную версию и скачай. Требуется вход в аккаунт.</p>
-            </div>
+        <div class="stats-wrap">
+            <div class="stat-box"><h3 class="count" data-target="85000">0</h3><p>Загрузок</p></div>
+            <div class="stat-box"><h3 class="count" data-target="24000">0</h3><p>Юзеров</p></div>
+            <div class="stat-box"><h3 class="count" data-target="100">0</h3><p>% Безопасно</p></div>
         </div>
 
-        <div class="grid" id="buildsGrid">
-            <!-- ===== Windows 11 Pro ===== -->
-            <article class="card" style="--icon-color:#4a8fdb" data-name="Windows 11 Pro" data-url="">
-                <div class="card-top">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="13.5" y="2" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="2" y="13.5" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="13.5" y="13.5" width="8.5" height="8.5" rx="1.5" />
-                        </svg>
-                    </div>
-                    <span class="card-badge">23H2</span>
-                </div>
-                <h3>Windows 11 Pro</h3>
-                <p class="card-desc">Профессиональная редакция с полным набором функций для работы и бизнеса.</p>
-
-                <div class="card-meta">
-                    <span class="meta-tag">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v12H4z" opacity=".5" /><path d="M8 10h8v4H8z" /></svg>
-                        x64
-                    </span>
-                    <span class="meta-tag">5.4 ГБ</span>
-                    <span class="meta-tag">ISO</span>
-                </div>
-
-                <ul class="card-features">
-                    <li>BitLocker шифрование</li>
-                    <li>Hyper-V виртуализация</li>
-                    <li>Remote Desktop</li>
-                    <li>Group Policy</li>
-                </ul>
-
-                <div class="card-actions">
-                    <button class="btn btn-primary download-btn">Скачать</button>
-                </div>
-            </article>
-
-            <!-- ===== Windows 11 Home ===== -->
-            <article class="card" style="--icon-color:#5ba8e8" data-name="Windows 11 Home" data-url="">
-                <div class="card-top">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="13.5" y="2" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="2" y="13.5" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="13.5" y="13.5" width="8.5" height="8.5" rx="1.5" />
-                        </svg>
-                    </div>
-                    <span class="card-badge">23H2</span>
-                </div>
-                <h3>Windows 11 Home</h3>
-                <p class="card-desc">Домашняя редакция для повседневного использования, игр и развлечений.</p>
-
-                <div class="card-meta">
-                    <span class="meta-tag">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v12H4z" opacity=".5" /><path d="M8 10h8v4H8z" /></svg>
-                        x64
-                    </span>
-                    <span class="meta-tag">5.2 ГБ</span>
-                    <span class="meta-tag">ISO</span>
-                </div>
-
-                <ul class="card-features">
-                    <li>TPM 2.0</li>
-                    <li>Secure Boot</li>
-                    <li>Windows Hello</li>
-                    <li>Центр обновлений</li>
-                </ul>
-
-                <div class="card-actions">
-                    <button class="btn btn-primary download-btn">Скачать</button>
-                </div>
-            </article>
-
-            <!-- ===== Windows 11 Compact ===== -->
-            <article class="card" style="--icon-color:#3d78c9" data-name="Windows 11 Compact" data-url="">
-                <div class="card-top">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="13.5" y="2" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="2" y="13.5" width="8.5" height="8.5" rx="1.5" />
-                            <rect x="13.5" y="13.5" width="8.5" height="8.5" rx="1.5" />
-                        </svg>
-                    </div>
-                    <span class="card-badge">Compact</span>
-                </div>
-                <h3>Windows 11 Compact</h3>
-                <p class="card-desc">Облегчённый образ без лишних приложений и служб. Быстрая установка и малое потребление RAM.</p>
-
-                <div class="card-meta">
-                    <span class="meta-tag">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v12H4z" opacity=".5" /><path d="M8 10h8v4H8z" /></svg>
-                        x64
-                    </span>
-                    <span class="meta-tag">3.8 ГБ</span>
-                    <span class="meta-tag">ISO</span>
-                </div>
-
-                <ul class="card-features">
-                    <li>Без лишних приложений</li>
-                    <li>Отключена телеметрия</li>
-                    <li>Облегчённая установка</li>
-                    <li>Минимальный след</li>
-                </ul>
-
-                <div class="card-actions">
-                    <button class="btn btn-primary download-btn">Скачать</button>
-                </div>
-            </article>
-
-            <!-- ===== Windows 10 Pro ===== -->
-            <article class="card" style="--icon-color:#2d6bb0" data-name="Windows 10 Pro" data-url="">
-                <div class="card-top">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="8.5" height="8.5" rx="0.5" />
-                            <rect x="13.5" y="2" width="8.5" height="8.5" rx="0.5" />
-                            <rect x="2" y="13.5" width="8.5" height="8.5" rx="0.5" />
-                            <rect x="13.5" y="13.5" width="8.5" height="8.5" rx="0.5" />
-                        </svg>
-                    </div>
-                    <span class="card-badge">22H2</span>
-                </div>
-                <h3>Windows 10 Pro</h3>
-                <p class="card-desc">Классическая профессиональная редакция с проверенным интерфейсом и полным функционалом.</p>
-
-                <div class="card-meta">
-                    <span class="meta-tag">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v12H4z" opacity=".5" /><path d="M8 10h8v4H8z" /></svg>
-                        x64
-                    </span>
-                    <span class="meta-tag">4.8 ГБ</span>
-                    <span class="meta-tag">ISO</span>
-                </div>
-
-                <ul class="card-features">
-                    <li>BitLocker</li>
-                    <li>Hyper-V</li>
-                    <li>Классическое меню Пуск</li>
-                    <li>Проверенная стабильность</li>
-                </ul>
-
-                <div class="card-actions">
-                    <button class="btn btn-primary download-btn">Скачать</button>
-                </div>
-            </article>
-
-            <!-- ===== Windows 10 Lite ===== -->
-            <article class="card" style="--icon-color:#3868a8" data-name="Windows 10 Lite" data-url="">
-                <div class="card-top">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="8.5" height="8.5" rx="0.5" />
-                            <rect x="13.5" y="2" width="8.5" height="8.5" rx="0.5" />
-                            <rect x="2" y="13.5" width="8.5" height="8.5" rx="0.5" />
-                            <rect x="13.5" y="13.5" width="8.5" height="8.5" rx="0.5" />
-                        </svg>
-                    </div>
-                    <span class="card-badge">Lite</span>
-                </div>
-                <h3>Windows 10 Lite</h3>
-                <p class="card-desc">Минималистичный образ для слабых устройств. Минимум служб и максимальная скорость.</p>
-
-                <div class="card-meta">
-                    <span class="meta-tag">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v12H4z" opacity=".5" /><path d="M8 10h8v4H8z" /></svg>
-                        x64
-                    </span>
-                    <span class="meta-tag">3.2 ГБ</span>
-                    <span class="meta-tag">ISO</span>
-                </div>
-
-                <ul class="card-features">
-                    <li>Минимум служб</li>
-                    <li>Быстрая установка</li>
-                    <li>Для слабых ПК</li>
-                    <li>Низкое потребление RAM</li>
-                </ul>
-
-                <div class="card-actions">
-                    <button class="btn btn-primary download-btn">Скачать</button>
-                </div>
-            </article>
+        <div class="search-container">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
+            <input type="text" id="searchInput" placeholder="Поиск файлов...">
         </div>
     </section>
 
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
-    <footer class="footer" id="about">
-        <div class="footer-inner">
-            <div>© 2025 WinHub · by seryyd9k · Данные хранятся локально в вашем браузере</div>
-            <div style="display:flex;gap:20px">
-                <a href="#" onclick="return false">Условия</a>
-                <a href="#" onclick="return false">Контакты</a>
-            </div>
+    <section class="container">
+        <div class="grid" id="modGrid">
+
+            <article class="card" data-name="abadavatar утилита файловый менеджер" data-id="file1">
+                <div class="card-top">
+                    <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" /></svg></div>
+                    <button class="fav-btn" data-id="file1"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg></button>
+                </div>
+                <span class="card-badge">Утилита</span>
+                <h3>ABadAvatar 1.0 beta</h3>
+                <p class="card-desc">Утилита для запуска кастомных дашбордов и приложений с USB-флешки. В связке с другими файлами создает привязанную прошивку (чип не нужен).</p>
+
+                <div class="btn-group">
+                    <a href="#" class="btn download-btn" data-url="https://drive.google.com/uc?export=download&id=16FHXC83cPEDCUi0BclBC3oLdH0dVwZ9I">
+                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg> Скачать
+                    </a>
+                    <button class="btn btn-copy" data-url="https://drive.google.com/file/d/16FHXC83cPEDCUi0BclBC3oLdH0dVwZ9I/view">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" /></svg>
+                    </button>
+                </div>
+            </article>
+
+            <article class="card" data-name="aurora dashboard дашборд оболочка" data-id="file2">
+                <div class="card-top">
+                    <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z" /></svg></div>
+                    <button class="fav-btn" data-id="file2"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg></button>
+                </div>
+                <span class="card-badge">Дашборд</span>
+                <h3>Aurora Dashboard</h3>
+                <p class="card-desc">Альтернативная оболочка, заменяющая стандартный интерфейс. Отлично работает без чипа в связке с утилитой ABadAvatar.</p>
+
+                <div class="btn-group">
+                    <a href="#" class="btn download-btn" data-url="https://drive.google.com/uc?export=download&id=130iFwiEvThB197svgwg_EWvEwCt3wENI">
+                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg> Скачать
+                    </a>
+                    <button class="btn btn-copy" data-url="https://drive.google.com/file/d/130iFwiEvThB197svgwg_EWvEwCt3wENI/view">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" /></svg>
+                    </button>
+                </div>
+            </article>
+
         </div>
-    </footer>
+    </section>
 
-    <!-- ============================================================
-         OVERLAY + MODAL + DRAWER + TOASTS
-         ============================================================ -->
-    <div class="overlay" id="overlay"></div>
+    <section class="faq-section">
+        <h2 class="faq-title">Частые вопросы</h2>
 
-    <div class="modal" id="authModal">
-        <div class="modal-head">
-            <h2 id="modalTitle">Вход в аккаунт</h2>
-            <p id="modalSub">Введите данные, чтобы продолжить</p>
-        </div>
+        <details>
+            <summary>Нужна ли мне прошитая консоль или чип?</summary>
+            <p><b>Нет!</b> Эти файлы вместе создают привязанную прошивку. Вам не нужно паять чипы (RGH/JTAG) или нести консоль мастеру. Связка из утилиты ABadAvatar и дашборда Aurora позволяет запускать кастомный софт на стоковой консоли.</p>
+        </details>
 
-        <div class="tabs">
-            <button class="tab active" data-tab="login">Вход</button>
-            <button class="tab" data-tab="register">Регистрация</button>
-        </div>
+        <details>
+            <summary>Это безопасно для моей консоли?</summary>
+            <p>Да, все файлы проверены сообществом и тысячами пользователей. Однако помните, что любая модификация системного ПО несет в себе риски. Делайте резервные копии.</p>
+        </details>
 
-        <div class="form-error" id="formError"></div>
+        <details>
+            <summary>Как перенести файлы на Xbox 360?</summary>
+            <p>Отформатируйте USB-флешку в FAT32, скопируйте на неё скачанные файлы, вставьте в консоль и используйте любой файловый менеджер (например, встроенный в ABadAvatar) для их запуска и установки.</p>
+        </details>
 
-        <form id="authForm" onsubmit="return false">
-            <div class="field">
-                <label for="fUsername">Имя пользователя</label>
-                <input type="text" id="fUsername" placeholder="Например, seryyd9k" autocomplete="username" maxlength="24">
-            </div>
-            <div class="field">
-                <label for="fPassword">Пароль</label>
-                <input type="password" id="fPassword" placeholder="Минимум 4 символа" autocomplete="current-password" maxlength="64">
-            </div>
-            <button class="btn btn-primary" id="authSubmit" type="submit">Войти</button>
-        </form>
+        <details>
+            <summary>В какой последовательности устанавливать файлы?</summary>
+            <p>Сначала запустите и настройте утилиту ABadAvatar (она создаст нужную среду), а затем через неё запустите установку дашборда Aurora.</p>
+        </details>
+    </section>
 
-        <p class="disclaimer">
-            Аккаунт хранится локально в этом браузере.<br>
-            Не вводите реальные пароли — это демонстрация.
-        </p>
+    <div id="toast">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /></svg>
+        <span id="toastMsg">Текст уведомления</span>
     </div>
 
-    <aside class="drawer" id="profileDrawer">
-        <div class="drawer-head">
-            <div class="drawer-avatar" id="drawerAvatar">?</div>
-            <div class="drawer-user">
-                <h3 id="drawerName">—</h3>
-                <p id="drawerMeta">—</p>
-            </div>
-            <button class="drawer-close" id="drawerClose" aria-label="Закрыть">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                    <line x1="6" y1="18" x2="18" y2="6" />
-                </svg>
-            </button>
-        </div>
+    <button id="scrollTopBtn" title="Наверх"><svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" /></svg></button>
+    <div id="cow-btn" title="Не нажимай!">🐄<div class="cow-count" id="cowCount">0</div></div>
 
-        <div class="drawer-body">
-            <div class="drawer-section">
-                <h4>История загрузок</h4>
-                <div id="historyList"></div>
-            </div>
-        </div>
-
-        <div class="drawer-foot">
-            <button class="btn btn-ghost" id="logoutBtn" style="color:var(--danger);border-color:color-mix(in srgb,var(--danger) 30%,transparent)">
-                Выйти из аккаунта
-            </button>
-        </div>
-    </aside>
-
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- ============================================================
-         SCRIPT
-         ============================================================ -->
     <script>
-        'use strict';
+        document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. КУРСОР ---
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+        });
+        document.querySelectorAll('a, button, input, summary, .card').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
 
-        /* ============================================================
-        КОНСТАНТЫ
-        ============================================================ */
-        const KEYS = {
-        USERS: 'winhub_users',
-        SESSION: 'winhub_session',
-        HISTORY: 'winhub_history',
-        THEME: 'winhub_theme',
-        };
+        // --- 2. 3D-ЭФФЕКТ КАРТОЧЕК ---
+        document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -8;
+        const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 8;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        card.addEventListener('mouseleave', () => {
+        card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+        card.style.transition = 'transform 0.3s ease';
+        });
+        card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+        });
 
-        /* ============================================================
-        ТЕМА
-        ============================================================ */
-        const Theme = {
-        current() {
-        return document.documentElement.getAttribute('data-theme') || 'light';
-        },
-        apply(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a1525' : '#eef4fc');
-        localStorage.setItem(KEYS.THEME, theme);
-        this.updateIcon(theme);
-        },
-        toggle() {
-        this.apply(this.current() === 'dark' ? 'light' : 'dark');
-        },
-        init() {
-        const saved = localStorage.getItem(KEYS.THEME);
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        this.apply(saved || (prefersDark ? 'dark' : 'light'));
-        },
-        updateIcon(theme) {
-        const icon = document.getElementById('themeIcon');
-        if (!icon) return;
+        // --- 3. СМЕНА ТЕМЫ ---
+        const themeBtn = document.getElementById('themeBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon(next);
+        });
+
+        function updateIcon(theme) {
         if (theme === 'dark') {
-        // солнце (переключить на светлую)
-        icon.innerHTML = '<circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>';
+        themeIcon.innerHTML = '<circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>';
         } else {
-        // луна (переключить на тёмную)
-        icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none"/>';
-        }
-        }
-        };
-
-        /* ============================================================
-        АВТОРИЗАЦИЯ (локальная)
-        ============================================================ */
-        const Auth = {
-        hash(str) {
-        let h = 5381;
-        for (let i = 0; i < str.length; i++) {
-        h = ((h << 5) + h) + str.charCodeAt(i);
-        h |= 0;
-        }
-        return 'h' + Math.abs(h).toString(36);
-        },
-        loadUsers() {
-        try { return JSON.parse(localStorage.getItem(KEYS.USERS) || '{}'); }
-        catch { return {}; }
-        },
-        saveUsers(u) {
-        localStorage.setItem(KEYS.USERS, JSON.stringify(u));
-        },
-        register(username, password) {
-        username = username.trim();
-        if (username.length < 3) return { ok: false, err: 'Имя минимум 3 символа' };
-        if (username.length > 24) return { ok: false, err: 'Имя слишком длинное' };
-        if (!/^[a-zA-Zа-яА-Я0-9_]+$/.test(username)) return { ok: false, err: 'Только буквы, цифры и _' };
-        if (password.length < 4) return { ok: false, err: 'Пароль минимум 4 символа' };
-
-        const users = this.loadUsers();
-        const key = username.toLowerCase();
-        if (users[key]) return { ok: false, err: 'Это имя уже занято' };
-
-        users[key] = {
-        name: username,
-        hash: this.hash(password),
-        created: Date.now(),
-        };
-        this.saveUsers(users);
-        localStorage.setItem(KEYS.SESSION, key);
-        return { ok: true, user: users[key] };
-        },
-        login(username, password) {
-        username = username.trim();
-        if (!username || !password) return { ok: false, err: 'Заполните все поля' };
-        const users = this.loadUsers();
-        const key = username.toLowerCase();
-        const u = users[key];
-        if (!u) return { ok: false, err: 'Пользователь не найден' };
-        if (u.hash !== this.hash(password)) return { ok: false, err: 'Неверный пароль' };
-        localStorage.setItem(KEYS.SESSION, key);
-        return { ok: true, user: u };
-        },
-        logout() {
-        localStorage.removeItem(KEYS.SESSION);
-        },
-        current() {
-        const key = localStorage.getItem(KEYS.SESSION);
-        if (!key) return null;
-        return this.loadUsers()[key] || null;
-        },
-        };
-
-        /* ============================================================
-        ИСТОРИЯ ЗАГРУЗОК
-        ============================================================ */
-        const History = {
-        key() {
-        const u = Auth.current();
-        return u ? u.name.toLowerCase() : null;
-        },
-        load() {
-        const k = this.key();
-        if (!k) return [];
-        try {
-        const all = JSON.parse(localStorage.getItem(KEYS.HISTORY) || '{}');
-        return all[k] || [];
-        } catch { return []; }
-        },
-        add(buildName) {
-        const k = this.key();
-        if (!k) return;
-        const all = (() => { try { return JSON.parse(localStorage.getItem(KEYS.HISTORY) || '{}'); } catch { return {}; } })();
-        if (!all[k]) all[k] = [];
-        all[k].unshift({ name: buildName, date: Date.now() });
-        all[k] = all[k].slice(0, 30);
-        localStorage.setItem(KEYS.HISTORY, JSON.stringify(all));
-        },
-        };
-
-        /* ============================================================
-        UI: TOAST
-        ============================================================ */
-        function toast(message, type) {
-        type = type || 'info';
-        const icons = { success: '✓', error: '!', info: 'i' };
-        const container = document.getElementById('toastContainer');
-        const el = document.createElement('div');
-        el.className = 'toast ' + type;
-        el.innerHTML = `<div class="toast-icon">${icons[type] || icons.info}</div><span>${escapeHtml(message)}</span>`;
-        container.appendChild(el);
-        setTimeout(() => {
-        el.classList.add('out');
-        setTimeout(() => el.remove(), 300);
-        }, 2600);
-        }
-
-        function escapeHtml(s) {
-        return String(s).replace(/[&<>"']/g, c => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-        }[c]));
-        }
-
-        /* ============================================================
-        UI: MODAL (auth)
-        ============================================================ */
-        const Modal = {
-        mode: 'login',
-        open(mode) {
-        this.mode = mode || 'login';
-        this.setMode(this.mode);
-        document.getElementById('overlay').classList.add('on');
-        document.getElementById('authModal').classList.add('on');
-        document.getElementById('formError').classList.remove('on');
-        setTimeout(() => document.getElementById('fUsername').focus(), 100);
-        },
-        close() {
-        document.getElementById('overlay').classList.remove('on');
-        document.getElementById('authModal').classList.remove('on');
-        document.getElementById('formError').classList.remove('on');
-        document.getElementById('fUsername').value = '';
-        document.getElementById('fPassword').value = '';
-        },
-        setMode(mode) {
-        this.mode = mode;
-        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === mode));
-        document.getElementById('modalTitle').textContent = mode === 'login' ? 'Вход в аккаунт' : 'Создать аккаунт';
-        document.getElementById('modalSub').textContent = mode === 'login'
-        ? 'Введите данные, чтобы продолжить'
-        : 'Придумайте имя и пароль — они сохранятся только у вас';
-        document.getElementById('authSubmit').textContent = mode === 'login' ? 'Войти' : 'Зарегистрироваться';
-        document.getElementById('formError').classList.remove('on');
-        },
-        showError(msg) {
-        const el = document.getElementById('formError');
-        el.textContent = msg;
-        el.classList.add('on');
-        },
-        };
-
-        /* ============================================================
-        UI: DRAWER (профиль)
-        ============================================================ */
-        const Drawer = {
-        open() {
-        const user = Auth.current();
-        if (!user) return;
-        document.getElementById('drawerAvatar').textContent = user.name[0].toUpperCase();
-        document.getElementById('drawerName').textContent = user.name;
-        const created = new Date(user.created);
-        document.getElementById('drawerMeta').textContent = 'С нами с ' + created.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
-        this.renderHistory();
-        document.getElementById('overlay').classList.add('on');
-        document.getElementById('profileDrawer').classList.add('on');
-        },
-        close() {
-        document.getElementById('overlay').classList.remove('on');
-        document.getElementById('profileDrawer').classList.remove('on');
-        },
-        renderHistory() {
-        const list = document.getElementById('historyList');
-        const hist = History.load();
-        if (hist.length === 0) {
-        list.innerHTML = '<div class="history-empty">Пока ничего не скачано</div>';
-        return;
-        }
-        list.innerHTML = hist.map(h => {
-        const d = new Date(h.date);
-        const dateStr = d.toLocaleDateString('ru-RU', { day:'numeric', month:'short' });
-        return `<div class="history-item">
-        <div class="dot"></div>
-        <div class="name">${escapeHtml(h.name)}</div>
-        <div class="date">${dateStr}</div>
-        </div>`;
-        }).join('');
-        },
-        };
-
-        /* ============================================================
-        UI: HEADER state
-        ============================================================ */
-        function updateHeader() {
-        const user = Auth.current();
-        const authBtns = document.getElementById('authButtons');
-        const chip = document.getElementById('userChip');
-
-        if (user) {
-        authBtns.style.display = 'none';
-        chip.classList.remove('hidden');
-        document.getElementById('userAvatar').textContent = user.name[0].toUpperCase();
-        document.getElementById('userName').textContent = user.name;
-        } else {
-        authBtns.style.display = 'flex';
-        chip.classList.add('hidden');
+        themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none"/>';
         }
         }
 
-        /* ============================================================
-        СКАЧИВАНИЕ
-        ============================================================ */
-        function handleDownload(btn, card) {
-        const user = Auth.current();
-        if (!user) {
-        toast('Войдите, чтобы скачать образ', 'error');
-        Modal.open('login');
-        return;
+        // --- 4. ЖИВОЙ ПОИСК ---
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.card');
+
+        searchInput.addEventListener('input', filterCards);
+
+        // --- 5. УВЕДОМЛЕНИЯ ---
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+        function showToast(text) {
+        toastMsg.innerText = text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        const name = card.dataset.name;
-        const url = card.dataset.url;
-
-        History.add(name);
-
-        if (url && url.trim() !== '' && url !== '#') {
-        // реальная ссылка — запускаем скачивание
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '';
-        a.rel = 'noopener';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        toast('Скачивание: ' + name, 'success');
-        } else {
-        // ссылка ещё не добавлена
-        toast('Ссылка на «' + name + '» скоро появится', 'info');
-        }
-
-        // обновим историю, если открыт профиль
-        if (document.getElementById('profileDrawer').classList.contains('on')) {
-        Drawer.renderHistory();
-        }
-        }
-
-        /* ============================================================
-        ИНИЦИАЛИЗАЦИЯ
-        ============================================================ */
-        function init() {
-        Theme.init();
-        updateHeader();
-
-        // тема
-        document.getElementById('themeBtn').addEventListener('click', () => Theme.toggle());
-
-        // вход / регистрация
-        document.getElementById('loginBtn').addEventListener('click', () => Modal.open('login'));
-        document.getElementById('registerBtn').addEventListener('click', () => Modal.open('register'));
-
-        // табы модалки
-        document.querySelectorAll('.tab').forEach(t => {
-        t.addEventListener('click', () => Modal.setMode(t.dataset.tab));
-        });
-
-        // сабмит формы
-        document.getElementById('authForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const username = document.getElementById('fUsername').value;
-        const password = document.getElementById('fPassword').value;
-
-        const result = Modal.mode === 'login'
-        ? Auth.login(username, password)
-        : Auth.register(username, password);
-
-        if (!result.ok) {
-        Modal.showError(result.err);
-        return;
-        }
-
-        Modal.close();
-        updateHeader();
-        toast(Modal.mode === 'login' ? 'С возвращением, ' + result.user.name : 'Аккаунт создан', 'success');
-        });
-
-        // закрытие модалки
-        document.getElementById('overlay').addEventListener('click', () => {
-        Modal.close();
-        Drawer.close();
-        });
-        document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-        Modal.close();
-        Drawer.close();
-        }
-        });
-
-        // профиль
-        document.getElementById('userChip').addEventListener('click', () => Drawer.open());
-        document.getElementById('drawerClose').addEventListener('click', () => Drawer.close());
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-        Auth.logout();
-        updateHeader();
-        Drawer.close();
-        toast('Вы вышли из аккаунта', 'info');
-        });
-
-        // скачивание
+        // --- 6. СКАЧИВАНИЕ И КОПИРОВАНИЕ ---
         document.querySelectorAll('.download-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = btn.dataset.url;
+        const name = btn.closest('.card').querySelector('h3').innerText;
+        showToast(`Загрузка: ${name}...`);
+        if (url && url !== '#') setTimeout(() => window.open(url, '_blank'), 500);
+        });
+        });
+
+        document.querySelectorAll('.btn-copy').forEach(btn => {
         btn.addEventListener('click', () => {
-        const card = btn.closest('.card');
-        handleDownload(btn, card);
+        const url = btn.dataset.url;
+        navigator.clipboard.writeText(url).then(() => {
+        showToast('Ссылка скопирована!');
         });
         });
+        });
+
+        // --- 7. ИЗБРАННОЕ (FAVORITES) ---
+        let favorites = JSON.parse(localStorage.getItem('favs')) || [];
+        const favBtns = document.querySelectorAll('.fav-btn');
+        const favFilterBtn = document.getElementById('favFilterBtn');
+        let showOnlyFavs = false;
+
+        function updateFavUI() {
+        favBtns.forEach(btn => {
+        const id = btn.dataset.id;
+        if (favorites.includes(id)) btn.classList.add('active');
+        else btn.classList.remove('active');
+        });
+        favFilterBtn.classList.toggle('active', showOnlyFavs);
         }
 
-        if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        favBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
         } else {
-        init();
+        favorites.push(id);
         }
+        localStorage.setItem('favs', JSON.stringify(favorites));
+        updateFavUI();
+        if(showOnlyFavs) filterCards();
+        });
+        });
+
+        favFilterBtn.addEventListener('click', () => {
+        showOnlyFavs = !showOnlyFavs;
+        updateFavUI();
+        filterCards();
+        });
+
+        function filterCards() {
+        const query = searchInput.value.toLowerCase();
+        cards.forEach(card => {
+        const text = card.dataset.name.toLowerCase();
+        const id = card.dataset.id;
+        const matchesSearch = text.includes(query);
+        const matchesFav = !showOnlyFavs || favorites.includes(id);
+        card.style.display = (matchesSearch && matchesFav) ? 'flex' : 'none';
+        });
+        }
+        updateFavUI();
+
+        // --- 8. RIPPLE ЭФФЕКТ ---
+        document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+        });
+        });
+
+        // --- 9. АНИМАЦИЯ ЦИФР ---
+        const counters = document.querySelectorAll('.count');
+        const animateCounter = (counter) => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText.replace(/\D/g,'');
+        const inc = target / 100;
+        if (count < target) {
+        counter.innerText = Math.ceil(count + inc);
+        setTimeout(() => animateCounter(counter), 20);
+        } else {
+        counter.innerText = target >= 1000 ? (target/1000) + 'K+' : target + '%';
+        }
+        };
+        setTimeout(() => counters.forEach(animateCounter), 500);
+
+        // --- 10. КНОПКА НАВЕРХ ---
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) scrollTopBtn.classList.add('show');
+        else scrollTopBtn.classList.remove('show');
+        });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // --- 11. ГЕНЕРАЦИЯ ЧАСТИЦ НА ФОНЕ ---
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        const size = Math.random() * 6 + 2;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${Math.random() * 100}vw`;
+        p.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        p.style.animationDelay = `${Math.random() * -20}s`;
+        particlesContainer.appendChild(p);
+        }
+
+        // --- 12. КОРОВЫ ---
+        const cowBtn = document.getElementById('cow-btn');
+        const cowCount = document.getElementById('cowCount');
+        let isRaining = false;
+        let totalCows = 0;
+
+        cowBtn.addEventListener('click', () => {
+        if (isRaining) return;
+        isRaining = true;
+        let count = 0;
+
+        totalCows++;
+        cowCount.innerText = totalCows;
+        cowCount.classList.add('show');
+        setTimeout(() => cowCount.classList.remove('show'), 3000);
+
+        const interval = setInterval(() => {
+        const cow = document.createElement('div');
+        cow.classList.add('falling-cow');
+        cow.textContent = '🐄';
+        cow.style.left = Math.random() * 100 + 'vw';
+        cow.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+        cow.style.fontSize = (Math.random() * 60 + 60) + 'px';
+        document.body.appendChild(cow);
+        setTimeout(() => cow.remove(), 3500);
+        count++;
+        if (count > 80) {
+        clearInterval(interval);
+        isRaining = false;
+        }
+        }, 60);
+        });
+        });
     </script>
 </body>
 </html>
